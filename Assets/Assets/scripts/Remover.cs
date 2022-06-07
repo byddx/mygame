@@ -5,9 +5,32 @@ using System.Collections;
 public class Remover : MonoBehaviour
 {
 	public GameObject splash;
+	private PlayerHealth playerHealth;
+
+	void Awake()
+	{
+		// Setting up the reference.
+		playerHealth = GameObject.Find("Hero").GetComponent<PlayerHealth>();
+	}
+	void Update()
+    {
+		if (playerHealth.health <= 0)
+		{
+			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>().enabled = false;
+
+			//防止英雄销毁后再去获取位置出现NullReferenceException
+			//if (GameObject.Find("UI_HealthBar").activeSelf)
+			//{
+			//	GameObject.Find("UI_HealthBar").SetActive(false);
+			//}
 
 
-	void OnTriggerEnter2D(Collider2D col)
+
+			StartCoroutine("ReloadGame");
+		}
+	}
+
+    void OnTriggerEnter2D(Collider2D col)
 	{
 		
 		if(col.gameObject.tag == "Player")
@@ -37,6 +60,7 @@ public class Remover : MonoBehaviour
 			
 			Destroy (col.gameObject);	
 		}
+		
 	}
 
 	IEnumerator ReloadGame()

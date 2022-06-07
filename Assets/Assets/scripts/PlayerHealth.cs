@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 public class PlayerHealth : MonoBehaviour
 {
     private SpriteRenderer healthBar;
@@ -9,9 +9,6 @@ public class PlayerHealth : MonoBehaviour
     public float repeatDamagePeriod = 2f;
     public float hurtForce = 1000f;
     public float damageAmount = 10f;
-
-    public AudioClip[] ouches;
-    public AudioSource audioSource;
 
     private float lastHitTime;
     private Vector3 healthScale;
@@ -24,8 +21,6 @@ public class PlayerHealth : MonoBehaviour
         anim = GetComponent<Animator>();
 
         healthScale = healthBar.transform.localScale;
-
-        audioSource = GetComponent<AudioSource>();
     }
     void OnCollisionEnter2D(Collision2D col)
     {
@@ -36,10 +31,6 @@ public class PlayerHealth : MonoBehaviour
             {
                 if (health > 0f)
                 {
-                    int i = Random.Range(0, ouches.Length);
-                   // AudioSource.PlayClipAtPoint(ouches[i], transform.position);
-                    audioSource.clip = ouches[i];
-                    audioSource.Play();
                     TakeDamage(col.transform);
                     lastHitTime = Time.time;
                 }
@@ -65,8 +56,6 @@ public class PlayerHealth : MonoBehaviour
         playerControl.enabled = false;
         GetComponentInChildren<Gun>().enabled = false;
         anim.SetTrigger("Die");
-
-
 
         //销毁血条
         GameObject go = GameObject.Find("UI_HealthBar");

@@ -12,7 +12,7 @@ public class Spawner : MonoBehaviour
     }
     void SpawnEnemy()
     {
-        int index = Random.Range(0, 2);
+        int index = Random.Range(0, 1);
         Instantiate(enemies[index], transform.position, transform.localRotation);
     }
     // Update is called once per frame
